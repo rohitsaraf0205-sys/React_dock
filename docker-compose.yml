@@ -1,0 +1,28 @@
+version: '3.8'
+services:
+  backend:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: reactdock_backend
+    environment:
+      - NODE_ENV=production
+      - PORT=5000
+    networks:
+      - reactdock-net
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: reactdock_frontend
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+    networks:
+      - reactdock-net
+
+networks:
+  reactdock-net:
+    driver: bridge
